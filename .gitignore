@@ -1,6 +1,8 @@
 node_modules
 .expo
 .DS_Store
+admin-web
+mobile-app
 mobile-app/ios/build
 mobile-app/android/app/build
 mobile-app/android/app/debug.keystore
