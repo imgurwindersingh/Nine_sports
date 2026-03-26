@@ -1,10 +1,9 @@
 # Nine Sports Backend
 
-This repository currently publishes only the backend service.
+This repository publishes only the backend service, with the backend files available directly at the repository root.
 
 ## Included
 
-- `backend/` Node.js + Express API
 - collection endpoints
 - image upload handling
 - delete collection and delete photo endpoints
@@ -12,7 +11,6 @@ This repository currently publishes only the backend service.
 ## Run locally
 
 ```bash
-cd backend
 npm install
 npm run dev
 ```
@@ -31,6 +29,6 @@ The API runs on `http://localhost:4000`.
 
 ## Notes
 
-- uploaded files are stored locally in `backend/src/uploads/`
+- uploaded files are stored locally in `src/uploads/`
 - collection data is stored locally by the backend
 - this is suitable for local testing first, not long-term production storage

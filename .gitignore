@@ -3,10 +3,13 @@ node_modules
 .DS_Store
 admin-web
 mobile-app
+backend
 mobile-app/ios/build
 mobile-app/android/app/build
 mobile-app/android/app/debug.keystore
 backend/src/collections.json
 backend/src/images.json
-backend/src/uploads/*
-!backend/src/uploads/.gitkeep
+src/collections.json
+src/images.json
+src/uploads/*
+!src/uploads/.gitkeep
