@@ -3,97 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nine Sports Backend</title>
-    <style>
-      :root {
-        color-scheme: light;
-        font-family: "Segoe UI", system-ui, sans-serif;
-        background: #08111f;
-        color: #e9eef8;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background:
-          radial-gradient(circle at top, rgba(68, 123, 255, 0.22), transparent 34%),
-          linear-gradient(160deg, #09111f 0%, #13233d 55%, #0b1629 100%);
-      }
-
-      main {
-        width: min(720px, calc(100% - 32px));
-        padding: 32px;
-        border-radius: 24px;
-        background: rgba(10, 17, 31, 0.78);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
-      }
-
-      h1 {
-        margin: 0 0 10px;
-        font-size: clamp(2rem, 5vw, 3rem);
-      }
-
-      p {
-        margin: 0 0 18px;
-        color: #bdc8da;
-        line-height: 1.6;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
-        margin-bottom: 18px;
-        border-radius: 999px;
-        background: rgba(44, 116, 255, 0.18);
-        color: #dbe7ff;
-        font-size: 0.95rem;
-      }
-
-      ul {
-        margin: 22px 0 0;
-        padding: 0;
-        list-style: none;
-        display: grid;
-        gap: 12px;
-      }
-
-      a {
-        color: #8fc1ff;
-      }
-
-      li a {
-        display: block;
-        padding: 14px 16px;
-        border-radius: 14px;
-        text-decoration: none;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-    </style>
+    <title>Nine Sports Admin Panel</title>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main>
-      <div class="pill">Nine Sports Backend is deployed on Netlify</div>
-      <h1>Backend is live</h1>
-      <p>
-        This site hosts the API for collections, photos, and uploads. Open an endpoint below to test
-        the deployment.
-      </p>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Admin Panel</p>
+        <h1>Create collections for your mobile app users</h1>
+        <p class="intro">
+          Add a collection title, choose many photos, and create an album-style collection that shows on the device.
+        </p>
+      </section>
 
-      <ul>
-        <li><a href="/api/health">/api/health</a></li>
-        <li><a href="/api/collections">/api/collections</a></li>
-        <li><a href="/api/photos">/api/photos</a></li>
-      </ul>
+      <section class="card">
+        <form id="upload-form" class="form">
+          <label>
+            <span>Collection title</span>
+            <input id="collection-title" name="collectionTitle" type="text" placeholder="Example: Wedding album" required />
+          </label>
+
+          <label>
+            <span>Photo title prefix (optional)</span>
+            <input id="title-prefix" name="titlePrefix" type="text" placeholder="Example: Wedding photo" />
+          </label>
+
+          <label>
+            <span>Select images</span>
+            <input id="image" name="images" type="file" accept="image/*" multiple required />
+          </label>
+
+          <p id="selection-count" class="selection-count">No images selected.</p>
+
+          <button type="submit">Create Collection</button>
+        </form>
+
+        <p id="status" class="status"></p>
+      </section>
+
+      <section class="card">
+        <div class="list-header">
+          <h2>Collections</h2>
+          <button id="refresh-button" class="secondary-button" type="button">Refresh</button>
+        </div>
+        <div id="collection-list" class="collection-list"></div>
+      </section>
     </main>
+
+    <script src="./app.js"></script>
   </body>
 </html>
