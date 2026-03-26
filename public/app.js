@@ -27,6 +27,22 @@ function setStatus(message, isError = false) {
   statusText.style.color = isError ? "#b42318" : "#675c50";
 }
 
+async function getErrorMessage(response, fallbackMessage) {
+  const contentType = response.headers.get("content-type") || "";
+
+  try {
+    if (contentType.includes("application/json")) {
+      const errorData = await response.json();
+      return errorData.message || fallbackMessage;
+    }
+
+    const text = await response.text();
+    return text || fallbackMessage;
+  } catch (_error) {
+    return fallbackMessage;
+  }
+}
+
 function renderCollections(collections) {
   if (!collections.length) {
     collectionList.innerHTML = "<p>No collections created yet.</p>";
@@ -114,7 +130,7 @@ async function loadCollections() {
   try {
     const response = await fetch(`${API_BASE_URL}/api/collections`);
     if (!response.ok) {
-      throw new Error("Could not load collections.");
+      throw new Error(await getErrorMessage(response, "Could not load collections."));
     }
 
     const collections = await response.json();
@@ -134,8 +150,7 @@ async function loadCollectionDetail(collectionId) {
   const response = await fetch(`${API_BASE_URL}/api/collections/${collectionId}`);
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Could not load collection details.");
+    throw new Error(await getErrorMessage(response, "Could not load collection details."));
   }
 
   const detail = await response.json();
@@ -180,8 +195,7 @@ uploadForm.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Upload failed.");
+      throw new Error(await getErrorMessage(response, "Upload failed."));
     }
 
     uploadForm.reset();
@@ -235,8 +249,7 @@ collectionList.addEventListener("click", async (event) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Could not delete collection.");
+        throw new Error(await getErrorMessage(response, "Could not delete collection."));
       }
 
       delete collectionDetailsCache[collectionId];
@@ -261,8 +274,7 @@ collectionList.addEventListener("click", async (event) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Could not delete photo.");
+        throw new Error(await getErrorMessage(response, "Could not delete photo."));
       }
 
       setStatus("Photo deleted successfully.");
