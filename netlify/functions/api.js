@@ -2,8 +2,14 @@ import { getStore } from "@netlify/blobs";
 
 const FUNCTION_PREFIX = "/.netlify/functions/api";
 const COLLECTION_PREFIX = "collections/";
-const uploadsStore = getStore({ name: "uploads", consistency: "strong" });
-const collectionsStore = getStore({ name: "collections", consistency: "strong" });
+
+function createUploadsStore() {
+  return getStore({ name: "uploads", consistency: "strong" });
+}
+
+function createCollectionsStore() {
+  return getStore({ name: "collections", consistency: "strong" });
+}
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -62,6 +68,7 @@ function formatCollectionDetail(request, collection) {
 }
 
 async function listCollections() {
+  const collectionsStore = createCollectionsStore();
   const { blobs } = await collectionsStore.list({ prefix: COLLECTION_PREFIX });
   const collections = await Promise.all(
     blobs.map((blob) => collectionsStore.get(blob.key, { type: "json" }))
@@ -71,22 +78,27 @@ async function listCollections() {
 }
 
 async function getCollectionById(collectionId) {
+  const collectionsStore = createCollectionsStore();
   return collectionsStore.get(`${COLLECTION_PREFIX}${collectionId}.json`, { type: "json" });
 }
 
 async function saveCollection(collection) {
+  const collectionsStore = createCollectionsStore();
   await collectionsStore.setJSON(`${COLLECTION_PREFIX}${collection.id}.json`, collection);
 }
 
 async function deleteCollectionRecord(collectionId) {
+  const collectionsStore = createCollectionsStore();
   await collectionsStore.delete(`${COLLECTION_PREFIX}${collectionId}.json`);
 }
 
 async function readUploadedFile(imageKey) {
+  const uploadsStore = createUploadsStore();
   return uploadsStore.getWithMetadata(imageKey, { type: "stream" });
 }
 
 async function saveUploadedFile(file) {
+  const uploadsStore = createUploadsStore();
   const imageKey = `${Date.now()}-${crypto.randomUUID()}-${file.name.replace(/\s+/g, "-")}`;
 
   await uploadsStore.set(imageKey, file, {
@@ -104,6 +116,7 @@ async function deleteUploadedFile(imageKey) {
     return;
   }
 
+  const uploadsStore = createUploadsStore();
   await uploadsStore.delete(imageKey);
 }
 
@@ -298,6 +311,10 @@ export default async function handler(request) {
     return json({ message: "Not found." }, { status: 404 });
   } catch (error) {
     console.error(error);
-    return json({ message: "Request failed." }, { status: 500 });
+    const message = error?.message?.includes("Token expired")
+      ? "Netlify storage token expired. Redeploy the site and try again."
+      : "Request failed.";
+
+    return json({ message }, { status: 500 });
   }
 }

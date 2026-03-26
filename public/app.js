@@ -43,6 +43,18 @@ async function getErrorMessage(response, fallbackMessage) {
   }
 }
 
+function sanitizeErrorMessage(message, fallbackMessage) {
+  if (!message) {
+    return fallbackMessage;
+  }
+
+  if (message.includes("BlobsInternalError") || message.includes("Token expired") || message.includes("file:///")) {
+    return "Server storage error. Please redeploy the Netlify site and try again.";
+  }
+
+  return message;
+}
+
 function renderCollections(collections) {
   if (!collections.length) {
     collectionList.innerHTML = "<p>No tournaments created yet.</p>";
@@ -142,7 +154,7 @@ async function loadCollections() {
 
     renderCollections(collections);
   } catch (error) {
-    setStatus(error.message, true);
+    setStatus(sanitizeErrorMessage(error.message, "Could not load tournaments."), true);
   }
 }
 
@@ -203,7 +215,7 @@ uploadForm.addEventListener("submit", async (event) => {
     setStatus(`Tournament created with ${selectedCount} photo(s).`);
     await loadCollections();
   } catch (error) {
-    setStatus(error.message, true);
+    setStatus(sanitizeErrorMessage(error.message, "Upload failed."), true);
   }
 });
 
@@ -282,7 +294,7 @@ collectionList.addEventListener("click", async (event) => {
       await loadCollections();
     }
   } catch (error) {
-    setStatus(error.message, true);
+    setStatus(sanitizeErrorMessage(error.message, "Action failed."), true);
   }
 });
 
