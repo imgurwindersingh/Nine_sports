@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Photo Gallery Mobile App",
+    "slug": "photo-gallery-mobile-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/nine-sports-logo.jpg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/nine-sports-logo.jpg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.talwindersinghtc.photogallerymobileapp"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/nine-sports-logo.jpg",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.talwindersinghtc.photogallerymobileapp"
+    },
+    "web": {
+      "favicon": "./assets/nine-sports-logo.jpg"
+    },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Photo Gallery Mobile App to access your photos.",
+          "savePhotosPermission": "Allow Photo Gallery Mobile App to save photos."
+        }
+      ]
+    ]
+  }
+}

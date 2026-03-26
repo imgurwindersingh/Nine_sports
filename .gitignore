@@ -1,0 +1,10 @@
+node_modules
+.expo
+.DS_Store
+mobile-app/ios/build
+mobile-app/android/app/build
+mobile-app/android/app/debug.keystore
+backend/src/collections.json
+backend/src/images.json
+backend/src/uploads/*
+!backend/src/uploads/.gitkeep
