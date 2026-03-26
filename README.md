@@ -27,8 +27,17 @@ The API runs on `http://localhost:4000`.
 - `DELETE /api/collections/:collectionId`
 - `DELETE /api/collections/:collectionId/photos/:photoId`
 
+## Netlify
+
+This repository now includes:
+
+- `netlify/functions/api.js` to run Express as a Netlify Function
+- `netlify.toml` for function routing
+- `public/index.html` so the root URL does not show a 404 page
+
 ## Notes
 
 - uploaded files are stored locally in `src/uploads/`
 - collection data is stored locally by the backend
+- on Netlify, this demo uses temporary storage in `/tmp`, so uploaded files are not durable across cold starts or deploys
 - this is suitable for local testing first, not long-term production storage
