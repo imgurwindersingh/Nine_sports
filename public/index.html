@@ -10,22 +10,22 @@
     <main class="page">
       <section class="hero">
         <p class="eyebrow">Admin Panel</p>
-        <h1>Create collections for your mobile app users</h1>
+        <h1>Create tournament galleries for your mobile app users</h1>
         <p class="intro">
-          Add a collection title, choose many photos, and create an album-style collection that shows on the device.
+          Add a tournament title, choose many photos, and create a tournament gallery that shows on the device.
         </p>
       </section>
 
       <section class="card">
         <form id="upload-form" class="form">
           <label>
-            <span>Collection title</span>
-            <input id="collection-title" name="collectionTitle" type="text" placeholder="Example: Wedding album" required />
+            <span>Tournament title</span>
+            <input id="collection-title" name="collectionTitle" type="text" placeholder="Example: Punjab Cricket Tournament 2026" required />
           </label>
 
           <label>
-            <span>Photo title prefix (optional)</span>
-            <input id="title-prefix" name="titlePrefix" type="text" placeholder="Example: Wedding photo" />
+            <span>Tournament photo title prefix (optional)</span>
+            <input id="title-prefix" name="titlePrefix" type="text" placeholder="Example: Match Day Photo" />
           </label>
 
           <label>
@@ -35,7 +35,7 @@
 
           <p id="selection-count" class="selection-count">No images selected.</p>
 
-          <button type="submit">Create Collection</button>
+          <button type="submit">Create Tournament</button>
         </form>
 
         <p id="status" class="status"></p>
@@ -43,7 +43,7 @@
 
       <section class="card">
         <div class="list-header">
-          <h2>Collections</h2>
+          <h2>Tournaments</h2>
           <button id="refresh-button" class="secondary-button" type="button">Refresh</button>
         </div>
         <div id="collection-list" class="collection-list"></div>

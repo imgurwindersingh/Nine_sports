@@ -45,7 +45,7 @@ async function getErrorMessage(response, fallbackMessage) {
 
 function renderCollections(collections) {
   if (!collections.length) {
-    collectionList.innerHTML = "<p>No collections created yet.</p>";
+    collectionList.innerHTML = "<p>No tournaments created yet.</p>";
     return;
   }
 
@@ -92,11 +92,11 @@ function renderCollectionPhotos(collectionId) {
   const detail = collectionDetailsCache[collectionId];
 
   if (!detail) {
-    return '<p class="photo-manage-message">Loading collection photos...</p>';
+    return '<p class="photo-manage-message">Loading tournament photos...</p>';
   }
 
   if (!detail.photos.length) {
-    return '<p class="photo-manage-message">No photos left in this collection.</p>';
+    return '<p class="photo-manage-message">No photos left in this tournament.</p>';
   }
 
   return `
@@ -150,7 +150,7 @@ async function loadCollectionDetail(collectionId) {
   const response = await fetch(`${API_BASE_URL}/api/collections/${collectionId}`);
 
   if (!response.ok) {
-    throw new Error(await getErrorMessage(response, "Could not load collection details."));
+    throw new Error(await getErrorMessage(response, "Could not load tournament details."));
   }
 
   const detail = await response.json();
@@ -168,7 +168,7 @@ uploadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!collectionTitleInput.value.trim()) {
-    setStatus("Please enter a collection title.", true);
+    setStatus("Please enter a tournament title.", true);
     return;
   }
 
@@ -187,7 +187,7 @@ uploadForm.addEventListener("submit", async (event) => {
   }
 
   try {
-    setStatus(`Creating collection with ${selectedCount} photo(s)...`);
+    setStatus(`Creating tournament with ${selectedCount} photo(s)...`);
 
     const response = await fetch(`${API_BASE_URL}/api/collections`, {
       method: "POST",
@@ -200,7 +200,7 @@ uploadForm.addEventListener("submit", async (event) => {
 
     uploadForm.reset();
     updateSelectionCount();
-    setStatus(`Collection created with ${selectedCount} photo(s).`);
+    setStatus(`Tournament created with ${selectedCount} photo(s).`);
     await loadCollections();
   } catch (error) {
     setStatus(error.message, true);
@@ -238,7 +238,7 @@ collectionList.addEventListener("click", async (event) => {
     }
 
     if (action === "delete-collection") {
-      const shouldDeleteCollection = window.confirm("Delete this full collection?");
+      const shouldDeleteCollection = window.confirm("Delete this full tournament?");
 
       if (!shouldDeleteCollection) {
         return;
@@ -249,7 +249,7 @@ collectionList.addEventListener("click", async (event) => {
       });
 
       if (!response.ok) {
-        throw new Error(await getErrorMessage(response, "Could not delete collection."));
+        throw new Error(await getErrorMessage(response, "Could not delete tournament."));
       }
 
       delete collectionDetailsCache[collectionId];
@@ -257,13 +257,13 @@ collectionList.addEventListener("click", async (event) => {
         expandedCollectionId = "";
       }
 
-      setStatus("Collection deleted successfully.");
+      setStatus("Tournament deleted successfully.");
       await loadCollections();
       return;
     }
 
     if (action === "delete-photo") {
-      const shouldDeletePhoto = window.confirm("Delete this photo from the collection?");
+      const shouldDeletePhoto = window.confirm("Delete this photo from the tournament?");
 
       if (!shouldDeletePhoto) {
         return;
